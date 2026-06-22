@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxo de Capacitação - Programa Aplicador Legal</title>
+    <!-- Tailwind CSS para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins (Títulos) e Lato (Texto de apoio) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para ícones expressivos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        agroGreen: {
+                            light: '#2A7E64',
+                            DEFAULT: '#0F4C3A',
+                            dark: '#0A3327',
+                        },
+                        agroAmber: {
+                            light: '#F59E0B',
+                            DEFAULT: '#D97706',
+                            dark: '#B45309',
+                        },
+                        agroCream: '#FAF9F5'
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        title: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ajustes finos de transição e comportamento visual */
+        .flow-line {
+            background-size: 200% 100%;
+            background-position: right bottom;
+            transition: all 0.5s ease;
+        }
+        .active-flow-line {
+            background-position: left bottom;
+        }
+        .tab-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Custom scrollbar para manter a elegância */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF9F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D97706;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B45309;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 min-h-screen">
+
+    <!-- CABEÇALHO INSTITUCIONAL -->
+    <header class="bg-agroGreen text-white shadow-lg border-b-4 border-agroAmber">
+        <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-white p-2.5 rounded-lg shadow-inner">
+                    <i class="fa-solid fa-graduation-cap text-agroGreen text-3xl md:text-4xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-title font-bold text-xl md:text-2xl tracking-wide">Programa Aplicador Legal</h1>
+                    <p class="text-xs md:text-sm text-emerald-100 font-light uppercase tracking-widest mt-0.5">Sistema FAEP / SENAR-PR</p>
+                </div>
+            </div>
+            <div class="text-center md:text-right">
+                <span class="inline-block bg-agroGreen-dark text-agroAmber font-semibold px-4 py-1.5 rounded-full text-xs md:text-sm uppercase tracking-wider border border-agroGreen-light shadow-sm">
+                    Portaria MAPA nº 606/2023
+                </span>
+                <p class="text-[10px] text-emerald-200/70 mt-1.5">Cumprimento do Conteúdo Mínimo Programático</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- INTRODUÇÃO E SELETOR DE PERFIL -->
+    <main class="max-w-7xl mx-auto px-4 md:px-6 py-8">
+        
+        <div class="bg-white rounded-2xl shadow-md p-6 md:p-8 mb-8 border border-slate-200">
+            <div class="max-w-3xl mb-6">
+                <h2 class="font-title font-bold text-2xl md:text-3xl text-agroGreen mb-3">Qual é a sua jornada de capacitação?</h2>
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed">
+                    O itinerário de capacitação do Programa Aplicador Legal foi estruturado pelo Sistema FAEP para atender com agilidade à sua realidade. Escolha o seu perfil para visualizar seu fluxo de formação ideal.
+                </p>
+            </div>
+
+            <!-- SELETORES GIGANTES DE PERFIL -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                
+                <!-- Opção 1: COM vínculo (CLT) -->
+                <button onclick="switchProfile('clt')" id="btn-clt" class="tab-transition flex flex-col md:flex-row items-center md:items-start text-left p-6 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-agroGreen/40 shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-slate-200/30 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+                    <div class="bg-agroGreen text-white p-4 rounded-xl mb-4 md:mb-0 md:mr-5 shadow-md shrink-0 group-hover:bg-agroGreen-dark tab-transition">
+                        <i class="fa-solid fa-address-card text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800">Perfil Profissional</span>
+                        </div>
+                        <h3 class="font-title font-bold text-lg md:text-xl text-slate-800 group-hover:text-agroGreen transition-colors">Com Vínculo Trabalhista</h3>
+                        <p class="text-sm text-slate-500 mt-1 leading-relaxed">
+                            Trabalhadores CLT de fazendas ou empresas agropecuárias. O curso é <strong>integrado</strong>, unindo as normas de segurança da NR 31.7 às regras do Aplicador Legal em um só itinerário.
+                        </p>
+                    </div>
+                </button>
+
+                <!-- Opção 2: SEM vínculo (Produtor / Autônomo) -->
+                <button onclick="switchProfile('produtor')" id="btn-produtor" class="tab-transition flex flex-col md:flex-row items-center md:items-start text-left p-6 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-agroGreen/40 shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-slate-200/30 rounded-bl-full group-hover:scale-110 transition-transform"></div>
+                    <div class="bg-agroAmber text-white p-4 rounded-xl mb-4 md:mb-0 md:mr-5 shadow-md shrink-0 group-hover:bg-agroAmber-dark tab-transition">
+                        <i class="fa-solid fa-person-digging text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-amber-100 text-amber-800">Perfil Autônomo</span>
+                        </div>
+                        <h3 class="font-title font-bold text-lg md:text-xl text-slate-800 group-hover:text-agroAmber transition-colors">Sem Vínculo Trabalhista</h3>
+                        <p class="text-sm text-slate-500 mt-1 leading-relaxed">
+                            Produtores rurais, familiares, parceiros ou meeiros. O curso é <strong>direto</strong>, focado estritamente no conteúdo programático básico e específico exigido pela Portaria MAPA.
+                        </p>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL (MUDANÇA DINÂMICA DE FLUXO) -->
+        <div id="flowchart-section" class="hidden transition-opacity duration-500 opacity-0">
+            
+            <div class="flex flex-col lg:flex-row gap-8">
+                
+                <!-- COLUNA ESQUERDA: O FLUXOGRAMA VISUAL -->
+                <div class="lg:w-2/3 bg-white rounded-2xl shadow-md p-6 md:p-8 border border-slate-200">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                        <h3 class="font-title font-bold text-xl text-agroGreen flex items-center gap-2">
+                            <i class="fa-solid fa-network-wired text-agroAmber"></i>
+                            Linha do Tempo & Passos da Capacitação
+                        </h3>
+                        <span id="profile-indicator" class="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded bg-agroGreen text-white"></span>
+                    </div>
+
+                    <!-- ESTÁGIOS DO FLUXO -->
+                    <div class="relative pl-6 md:pl-10 border-l-4 border-slate-200 space-y-12 py-4 ml-4">
+                        
+                        <!-- PASSO 1: Inscrição / Alinhamento -->
+                        <div class="relative">
+                            <!-- Marcador Central no Eixo do Fluxograma -->
+                            <div class="absolute -left-[38px] md:-left-[54px] top-1 bg-agroGreen text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow border-4 border-white">
+                                1
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-lg text-slate-800 flex items-center gap-2">
+                                    Mapeamento de Entrada
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">Pré-requisito</span>
+                                </h4>
+                                <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                    Determinação do escopo de trabalho na fazenda. Aplica-se a quem atua na preparação de caldas, pulverização, abastecimento, supervisão e destinação das embalagens vazias.
+                                </p>
+                                <!-- Alerta Portaria 410 -->
+                                <div class="mt-3 bg-agroCream border-l-4 border-agroAmber p-3 rounded text-xs text-slate-700 leading-relaxed max-w-xl">
+                                    <i class="fa-solid fa-triangle-exclamation text-agroAmber mr-1"></i>
+                                    <strong>Atenção Legal (Portaria MAPA 410/22):</strong> A liberação para testes práticos e específicos de cada máquina depende rigorosamente da aprovação prévia no teste de Conteúdo Básico.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PASSO 2: Itinerário Formativo (Muda conforme o perfil) -->
+                        <div class="relative">
+                            <div class="absolute -left-[38px] md:-left-[54px] top-1 bg-agroGreen text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow border-4 border-white">
+                                2
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-lg text-slate-800 flex items-center gap-2">
+                                    Aulas e Itinerário Técnico
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-agroGreen-light text-white rounded">Formação Teórico-Prática</span>
+                                </h4>
+                                
+                                <!-- Bloco Dinâmico para CLT -->
+                                <div id="flow-clt-details" class="hidden mt-3 space-y-4">
+                                    <p class="text-sm text-slate-600 leading-relaxed">
+                                        Como trabalhador CLT, seu curso é focado na eficiência de tempo e segurança total. O SENAR/FAEP integra as disciplinas para evitar interrupções contínuas no seu trabalho:
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                        <div class="bg-emerald-50/60 border border-emerald-100 p-3 rounded-lg text-center">
+                                            <span class="text-xs font-bold text-emerald-800 block uppercase">Fase 1</span>
+                                            <p class="text-xs font-bold text-slate-800 mt-1">Normativa NR 31.7</p>
+                                            <p class="text-[10px] text-slate-500 mt-0.5">Segurança &amp; EPIs</p>
+                                        </div>
+                                        <div class="bg-emerald-50/60 border border-emerald-100 p-3 rounded-lg text-center">
+                                            <span class="text-xs font-bold text-emerald-800 block uppercase">Fase 2</span>
+                                            <p class="text-xs font-bold text-slate-800 mt-1">Básico do Aplicador</p>
+                                            <p class="text-[10px] text-slate-500 mt-0.5">Tecnologia de Aplicação</p>
+                                        </div>
+                                        <div class="bg-emerald-50/60 border border-emerald-100 p-3 rounded-lg text-center">
+                                            <span class="text-xs font-bold text-emerald-800 block uppercase">Fase 3</span>
+                                            <p class="text-xs font-bold text-slate-800 mt-1">Equipamento Prático</p>
+                                            <p class="text-[10px] text-slate-500 mt-0.5">Operação e Calibração</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-agroGreen-light font-bold flex items-center gap-1">
+                                        <i class="fa-solid fa-bolt"></i> Trajeto de aprendizado único, gerando alta economia em transporte e hospedagem.
+                                    </p>
+                                </div>
+
+                                <!-- Bloco Dinâmico para PRODUTOR -->
+                                <div id="flow-produtor-details" class="hidden mt-3 space-y-4">
+                                    <p class="text-sm text-slate-600 leading-relaxed">
+                                        Para produtores independentes e familiares, o trajeto é reduzido às especificidades técnicas do programa governamental, focando estritamente nas normas operacionais:
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div class="bg-amber-50/60 border border-amber-100 p-4 rounded-lg flex items-start gap-3">
+                                            <span class="bg-agroAmber text-white text-xs font-bold px-2 py-1 rounded">8h</span>
+                                            <div>
+                                                <h5 class="text-xs font-bold text-slate-800 uppercase">Módulo Teórico Base</h5>
+                                                <p class="text-[11px] text-slate-500 mt-0.5">Legislação, impactos ambientais e rotulagem básica.</p>
+                                            </div>
+                                        </div>
+                                        <div class="bg-amber-50/60 border border-amber-100 p-4 rounded-lg flex items-start gap-3">
+                                            <span class="bg-agroAmber text-white text-xs font-bold px-2 py-1 rounded" id="label-hours-spec">8h / 4h</span>
+                                            <div>
+                                                <h5 class="text-xs font-bold text-slate-800 uppercase">Módulo do Equipamento</h5>
+                                                <p class="text-[11px] text-slate-500 mt-0.5">Foco de campo exclusivo no modelo de máquina escolhido.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PASSO 3: Avaliação Legal -->
+                        <div class="relative">
+                            <div class="absolute -left-[38px] md:-left-[54px] top-1 bg-agroGreen text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow border-4 border-white">
+                                3
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-lg text-slate-800 flex items-center gap-2">
+                                    Avaliação de Conformidade
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-red-100 text-red-800 rounded">Exigência MAPA</span>
+                                </h4>
+                                <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                    Para receber a carteira oficial de aplicador, o participante passa por provas técnicas validadas pelo Sistema FAEP. A certificação oficial ocorre mediante a comprovação de aproveitamento e presença mínima regida.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- PASSO 4: Validade e Renovação -->
+                        <div class="relative">
+                            <div class="absolute -left-[38px] md:-left-[54px] top-1 bg-agroGreen text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow border-4 border-white">
+                                4
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-lg text-slate-800 flex items-center gap-2">
+                                    Habilitação Ativa &amp; Reciclagem
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Validade: 5 Anos</span>
+                                </h4>
+                                <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                    Sua habilitação emitida no formato presencial terá <strong>vigência de 5 anos</strong>. Próximo ao término do prazo, novos treinamentos atualizados deverão ser providenciados.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- COLUNA DIREITA: SELETOR DE EQUIPAMENTOS E CALCULADORA DE HORAS -->
+                <div class="lg:w-1/3 flex flex-col gap-6">
+                    
+                    <!-- CALCULADORA / SIMULADOR -->
+                    <div class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-agroAmber">
+                        <h4 class="font-title font-bold text-lg text-agroGreen mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-agroAmber"></i>
+                            Simulador de Carga Horária
+                        </h4>
+                        
+                        <p class="text-xs text-slate-500 mb-4">
+                            Selecione o equipamento desejado abaixo para computar o itinerário completo e estimar o plano de ensino:
+                        </p>
+
+                        <!-- GRID SELETOR DE EQUIPAMENTO -->
+                        <div class="space-y-3 mb-6">
+                            
+                            <!-- Autopropelido -->
+                            <button onclick="selectEquip('autopropelido')" id="eq-autopropelido" class="tab-transition w-full flex items-center justify-between p-3.5 rounded-xl border border-slate-200 hover:border-agroGreen/30 bg-slate-50 hover:bg-slate-100 text-left">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-agroGreen/10 text-agroGreen p-2.5 rounded-lg text-sm">
+                                        <i class="fa-solid fa-truck-monster"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-slate-400 block uppercase leading-none">Grande Escala</span>
+                                        <span class="font-semibold text-sm text-slate-800">Autopropelido</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-check text-slate-200" id="check-autopropelido"></i>
+                            </button>
+
+                            <!-- Tratorizado de Barras -->
+                            <button onclick="selectEquip('tratorizado')" id="eq-tratorizado" class="tab-transition w-full flex items-center justify-between p-3.5 rounded-xl border border-slate-200 hover:border-agroGreen/30 bg-slate-50 hover:bg-slate-100 text-left">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-agroGreen/10 text-agroGreen p-2.5 rounded-lg text-sm">
+                                        <i class="fa-solid fa-tractor"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-slate-400 block uppercase leading-none">Mecanizado</span>
+                                        <span class="font-semibold text-sm text-slate-800">Tratorizado de Barras</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-check text-slate-200" id="check-tratorizado"></i>
+                            </button>
+
+                            <!-- Turbopulverizador -->
+                            <button onclick="selectEquip('turbopulverizador')" id="eq-turbopulverizador" class="tab-transition w-full flex items-center justify-between p-3.5 rounded-xl border border-slate-200 hover:border-agroGreen/30 bg-slate-50 hover:bg-slate-100 text-left">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-agroGreen/10 text-agroGreen p-2.5 rounded-lg text-sm">
+                                        <i class="fa-solid fa-wind"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-slate-400 block uppercase leading-none">Fruticultura / Café</span>
+                                        <span class="font-semibold text-sm text-slate-800">Turbopulverizador</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-check text-slate-200" id="check-turbopulverizador"></i>
+                            </button>
+
+                            <!-- Costal -->
+                            <button onclick="selectEquip('costal')" id="eq-costal" class="tab-transition w-full flex items-center justify-between p-3.5 rounded-xl border border-slate-200 hover:border-agroGreen/30 bg-slate-50 hover:bg-slate-100 text-left">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-agroGreen/10 text-agroGreen p-2.5 rounded-lg text-sm">
+                                        <i class="fa-solid fa-user-ninja"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-bold text-slate-400 block uppercase leading-none">Manual</span>
+                                        <span class="font-semibold text-sm text-slate-800">Pulverizador Costal</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-circle-check text-slate-200" id="check-costal"></i>
+                            </button>
+
+                        </div>
+
+                        <!-- RESULTADO DA SIMULAÇÃO -->
+                        <div class="bg-agroGreen text-white p-5 rounded-xl shadow-inner relative overflow-hidden">
+                            <div class="absolute -right-6 -bottom-6 text-emerald-800/40 text-7xl">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </div>
+                            <span class="text-xs uppercase tracking-wider font-semibold text-emerald-200 block">Carga Horária Total</span>
+                            <h5 id="calculated-hours" class="text-3xl font-title font-bold text-agroAmber mt-1">-- horas</h5>
+                            <hr class="border-emerald-800 my-3">
+                            <div class="text-xs space-y-1.5 text-emerald-100" id="hours-breakdown">
+                                <!-- Preenchido dinamicamente por JS -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- CAIXA DE APROVEITAMENTO DE RECURSOS -->
+                    <div class="bg-white rounded-2xl shadow-md p-6 border border-slate-200">
+                        <h4 class="font-title font-bold text-base text-slate-800 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-file-shield text-emerald-600"></i>
+                            Aproveitamento Anterior?
+                        </h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Se o trabalhador ou produtor já realizou cursos de <strong>NR 31.7</strong> nos <strong>dois anos anteriores</strong> à regulamentação do programa, é possível apresentar os certificados para análise do Sistema FAEP.
+                        </p>
+                        <div class="mt-3 inline-flex items-center gap-1.5 text-xs text-agroGreen font-bold hover:underline cursor-pointer">
+                            <span>Ver regras de equivalência</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RENOVAÇÃO E REGRAS ADICIONAIS -->
+            <div class="mt-8 bg-white rounded-2xl shadow-md p-6 md:p-8 border border-slate-200">
+                <h3 class="font-title font-bold text-xl text-agroGreen mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-arrows-spin text-agroAmber"></i>
+                    Casos de Segunda Habilitação & Regras de Validade
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            Caso você já possua habilitação oficial para um maquinário (ex: Tratorizado de Barras) e pretenda se habilitar para outro (ex: Autopropelido), o regulamento concede **isenção total do Conteúdo Básico**.
+                        </p>
+                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 mb-2">Cargas Horárias Práticas Reduzidas:</h4>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-white px-3 py-1.5 rounded border border-slate-100 flex justify-between">
+                                    <span class="font-medium text-slate-700">Autopropelido:</span>
+                                    <strong class="text-agroGreen">8h</strong>
+                                </div>
+                                <div class="bg-white px-3 py-1.5 rounded border border-slate-100 flex justify-between">
+                                    <span class="font-medium text-slate-700">Tratorizado:</span>
+                                    <strong class="text-agroGreen">8h</strong>
+                                </div>
+                                <div class="bg-white px-3 py-1.5 rounded border border-slate-100 flex justify-between">
+                                    <span class="font-medium text-slate-700">Turbopulverizador:</span>
+                                    <strong class="text-agroGreen">8h</strong>
+                                </div>
+                                <div class="bg-white px-3 py-1.5 rounded border border-slate-100 flex justify-between">
+                                    <span class="font-medium text-slate-700">Costal:</span>
+                                    <strong class="text-agroGreen">4h</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vencimento Casado -->
+                    <div class="bg-amber-50/60 border-2 border-dashed border-agroAmber/40 p-6 rounded-2xl">
+                        <h4 class="font-title font-bold text-base text-agroAmber-dark flex items-center gap-1.5 mb-2">
+                            <i class="fa-solid fa-clock"></i>
+                            Regra Importante: Vencimento Casado
+                        </h4>
+                        <p class="text-xs text-slate-700 leading-relaxed mb-3">
+                            A data de vencimento da segunda habilitação segue o mesmo prazo restante da sua habilitação principal.
+                        </p>
+                        <div class="bg-white p-3 rounded-xl border border-amber-200/60 text-[11px] text-slate-600 leading-relaxed mb-2">
+                            <i class="fa-solid fa-circle-info text-agroAmber"></i>
+                            <strong>Recomendação Prática:</strong> Se a sua habilitação inicial vencer em menos de <strong>6 meses</strong>, não é recomendável cursar apenas o módulo específico isolado. O ideal é refazer a capacitação completa para renovar todos os módulos simultaneamente por mais 5 anos.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-slate-900 text-slate-400 mt-16 py-8 border-t border-slate-800 text-center">
+        <div class="max-w-7xl mx-auto px-6 text-xs space-y-2">
+            <p>© 2026 Sistema FAEP / SENAR-PR. Todos os direitos reservados.</p>
+            <p class="text-slate-500">Desenvolvido em alinhamento técnico com as diretrizes do Ministério da Agricultura e Pecuária (MAPA).</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA DE INTERAÇÃO -->
+    <script>
+        // Dados de carga horária para cálculo automático
+        const dataHours = {
+            clt: {
+                autopropelido: {
+                    total: 32,
+                    breakdown: ["Inclui capacitação de segurança NR 31.7", "Módulo básico do Aplicador Legal", "Módulo prático do Autopropelido"]
+                },
+                tratorizado: {
+                    total: 32,
+                    breakdown: ["Inclui capacitação de segurança NR 31.7", "Módulo básico do Aplicador Legal", "Módulo prático do Tratorizado de Barras"]
+                },
+                turbopulverizador: {
+                    total: 32,
+                    breakdown: ["Inclui capacitação de segurança NR 31.7", "Módulo básico do Aplicador Legal", "Módulo prático do Turbopulverizador"]
+                },
+                costal: {
+                    total: 24,
+                    breakdown: ["Inclui capacitação de segurança NR 31.7", "Módulo básico do Aplicador Legal", "Módulo prático de Pulverizador Costal"]
+                }
+            },
+            produtor: {
+                autopropelido: {
+                    total: 16,
+                    breakdown: ["8h - Módulo básico regulatório", "8h - Módulo prático do Autopropelido"]
+                },
+                tratorizado: {
+                    total: 16,
+                    breakdown: ["8h - Módulo básico regulatório", "8h - Módulo prático do Tratorizado de Barras"]
+                },
+                turbopulverizador: {
+                    total: 16,
+                    breakdown: ["8h - Módulo básico regulatório", "8h - Módulo prático do Turbopulverizador"]
+                },
+                costal: {
+                    total: 12,
+                    breakdown: ["8h - Módulo básico regulatório", "4h - Módulo prático de Pulverizador Costal"]
+                }
+            }
+        };
+
+        let currentProfile = '';
+        let currentEquipment = '';
+
+        function switchProfile(profile) {
+            currentProfile = profile;
+            
+            // Controle visual de botões de seleção de Perfil
+            const btnClt = document.getElementById('btn-clt');
+            const btnProdutor = document.getElementById('btn-produtor');
+            
+            if (profile === 'clt') {
+                btnClt.classList.add('border-agroGreen', 'bg-emerald-50/50', 'ring-2', 'ring-agroGreen/20');
+                btnClt.classList.remove('border-slate-200', 'bg-slate-50');
+                
+                btnProdutor.classList.remove('border-agroAmber', 'bg-amber-50/50', 'ring-2', 'ring-agroAmber/20');
+                btnProdutor.classList.add('border-slate-200', 'bg-slate-50');
+
+                document.getElementById('profile-indicator').innerText = "CLT (Com Vínculo)";
+                document.getElementById('profile-indicator').className = "text-xs font-bold uppercase tracking-widest px-3 py-1 rounded bg-agroGreen text-white";
+                
+                // Exibe/oculta detalhes específicos do fluxo de aprendizagem
+                document.getElementById('flow-clt-details').classList.remove('hidden');
+                document.getElementById('flow-produtor-details').classList.add('hidden');
+            } else {
+                btnProdutor.classList.add('border-agroAmber', 'bg-amber-50/50', 'ring-2', 'ring-agroAmber/20');
+                btnProdutor.classList.remove('border-slate-200', 'bg-slate-50');
+                
+                btnClt.classList.remove('border-agroGreen', 'bg-emerald-50/50', 'ring-2', 'ring-agroGreen/20');
+                btnClt.classList.add('border-slate-200', 'bg-slate-50');
+
+                document.getElementById('profile-indicator').innerText = "Produtor (Sem Vínculo)";
+                document.getElementById('profile-indicator').className = "text-xs font-bold uppercase tracking-widest px-3 py-1 rounded bg-agroAmber text-white";
+                
+                // Exibe/oculta detalhes específicos do fluxo de aprendizagem
+                document.getElementById('flow-produtor-details').classList.remove('hidden');
+                document.getElementById('flow-clt-details').classList.add('hidden');
+            }
+
+            // Exibir a seção de fluxograma com animação suave de fade-in
+            const flowSection = document.getElementById('flowchart-section');
+            flowSection.classList.remove('hidden');
+            setTimeout(() => {
+                flowSection.classList.remove('opacity-0');
+                flowSection.classList.add('opacity-100');
+            }, 50);
+
+            // Se nenhum equipamento estiver ativo, force seleção padrão inicial (Autopropelido)
+            if(!currentEquipment) {
+                selectEquip('autopropelido');
+            } else {
+                updateCalculations();
+            }
+        }
+
+        function selectEquip(equip) {
+            currentEquipment = equip;
+
+            // Limpa seleções anteriores nos botões de equipamento
+            const equipmentList = ['autopropelido', 'tratorizado', 'turbopulverizador', 'costal'];
+            equipmentList.forEach(eq => {
+                const btn = document.getElementById(`eq-${eq}`);
+                const check = document.getElementById(`check-${eq}`);
+                
+                btn.classList.remove('border-agroGreen', 'bg-emerald-50/40', 'ring-1', 'ring-agroGreen/10');
+                btn.classList.add('border-slate-200', 'bg-slate-50');
+                check.classList.remove('text-agroGreen');
+                check.classList.add('text-slate-200');
+            });
+
+            // Ativa o botão selecionado
+            const activeBtn = document.getElementById(`eq-${equip}`);
+            const activeCheck = document.getElementById(`check-${equip}`);
+            activeBtn.classList.add('border-agroGreen', 'bg-emerald-50/40', 'ring-1', 'ring-agroGreen/10');
+            activeBtn.classList.remove('border-slate-200', 'bg-slate-50');
+            activeCheck.classList.add('text-agroGreen');
+            activeCheck.classList.remove('text-slate-200');
+
+            updateCalculations();
+        }
+
+        function updateCalculations() {
+            if (!currentProfile || !currentEquipment) return;
+
+            const selectedData = dataHours[currentProfile][currentEquipment];
+            
+            // Atualiza horas totais
+            document.getElementById('calculated-hours').innerText = `${selectedData.total} horas`;
+
+            // Atualiza a lista detalhada do percurso da simulação
+            const breakdownContainer = document.getElementById('hours-breakdown');
+            breakdownContainer.innerHTML = '';
+            
+            selectedData.breakdown.forEach((step, index) => {
+                const li = document.createElement('div');
+                li.className = "flex items-start gap-2 text-xs leading-relaxed";
+                li.innerHTML = `
+                    <span class="text-agroAmber mt-0.5"><i class="fa-solid fa-circle-chevron-right"></i></span>
+                    <span>${step}</span>
+                `;
+                breakdownContainer.appendChild(li);
+            });
+
+            // Altera dinamicamente as legendas de horas em tempo real
+            if(currentProfile === 'produtor') {
+                const specHours = currentEquipment === 'costal' ? '4h' : '8h';
+                document.getElementById('label-hours-spec').innerText = specHours;
+            }
+        }
+    </script>
+
+</body>
+</html>
