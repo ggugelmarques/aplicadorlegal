@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa Aplicador Legal - SENAR-PR</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            --faep-green: #1b5e20;
+            --faep-light: #2e7d32;
+            --faep-gold: #c5a059;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --bg-slide: #ffffff;
+            --bg-body: #f1f5f9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text-main);
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .presentation-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            height: 92vh;
+            background: var(--bg-slide);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* CABEÇALHO E LOGO */
+        .header-bar {
+            height: 6px;
+            background: linear-gradient(90deg, var(--faep-green), var(--faep-light), var(--faep-gold));
+        }
+        
+        .logo-container {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            z-index: 100;
+        }
+        .logo-container img { height: 60px; object-fit: contain; }
+
+        /* SLIDES */
+        .slide {
+            flex: 1;
+            padding: 60px 80px;
+            display: none;
+            flex-direction: column;
+            animation: slideIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow-y: auto;
+            position: relative;
+        }
+        .slide.active { display: flex; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.98) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* TIPOGRAFIA E TEXTOS */
+        h1 { font-family: 'Montserrat', sans-serif; color: var(--faep-green); font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; font-weight: 800; letter-spacing: -1px; }
+        h2.title { 
+            font-family: 'Montserrat', sans-serif; 
+            color: var(--faep-green); 
+            font-size: 2.2rem; 
+            margin-bottom: 35px; 
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        h2.title::after {
+            content: ''; position: absolute; left: 0; bottom: 0;
+            width: 80px; height: 4px; background: var(--faep-gold); border-radius: 2px;
+        }
+        h3 { font-size: 1.3rem; color: var(--faep-green); margin-bottom: 12px; font-weight: 600; }
+        p, li { font-size: 1.15rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 10px; }
+        strong { color: var(--text-main); }
+        
+        /* GRIDS & CARDS (LAYOUT PREMIUM) */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        
+        .card {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 10px;
+            border-top: 5px solid var(--faep-green);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card.alert { border-top-color: #ef4444; background: #fef2f2; }
+        .card.success { border-top-color: var(--faep-light); background: #f0fdf4; }
+        .card.warning { border-top-color: var(--faep-gold); background: #fffbeb; }
+
+        /* MODO ESCURO PARA CARDS (Correção do Contraste) */
+        .card.dark-mode {
+            background: #1e293b;
+            border-top-color: var(--faep-gold);
+        }
+        .card.dark-mode h3 { color: var(--faep-gold); }
+        .card.dark-mode p, .card.dark-mode li { color: #f1f5f9; } /* Força o texto claro */
+        .card.dark-mode strong { color: #ffffff; }
+
+        /* BLOCOS VISUAIS DE SUBSTITUIÇÃO DE IMAGENS */
+        .visual-box {
+            width: 100%; height: 100%; min-height: 250px;
+            background: linear-gradient(135deg, rgba(27,94,32,0.05), rgba(27,94,32,0.15));
+            border: 2px dashed var(--faep-gold);
+            border-radius: 10px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 30px;
+        }
+        .visual-box span { font-size: 3rem; margin-bottom: 15px; }
+        .visual-box p { font-weight: 600; color: var(--faep-green); }
+
+        /* TABELAS */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 18px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: var(--faep-green); color: white; font-weight: 600; }
+        tr:nth-child(even) { background: #f8fafc; }
+
+        /* FLUXOGRAMA E BOTÕES */
+        .step-box { padding: 25px; background: #f1f5f9; border: 2px solid var(--faep-green); border-radius: 10px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .step-box.active { background: var(--faep-green); color: white; transform: scale(1.05); }
+        .step-box.active h3, .step-box.active p { color: white; }
+        .step-arrow { font-size: 2.5rem; color: var(--faep-gold); align-self: center; }
+
+        .timeline-btn { padding: 12px 25px; background: #e2e8f0; border: none; font-size: 1.1rem; font-weight: 600; cursor: pointer; border-radius: 8px; color: var(--text-muted); }
+        .timeline-btn.active { background: var(--faep-green); color: white; }
+        .timeline-content { display: none; padding: 25px; background: #f8fafc; margin-top: 20px; border-radius: 8px; border-left: 5px solid var(--faep-gold); }
+        .timeline-content.active { display: block; }
+
+        /* QUIZ */
+        .quiz-opt { padding: 18px; background: #f1f5f9; margin-bottom: 12px; cursor: pointer; border-radius: 8px; transition: 0.3s; font-weight: 500; border: 2px solid transparent; }
+        .quiz-opt:hover { background: #e2e8f0; }
+        .quiz-opt.correct { background: #f0fdf4; border-color: var(--faep-light); color: var(--faep-green); }
+        .quiz-opt.wrong { background: #fef2f2; border-color: #ef4444; color: #b91c1c; }
+
+        /* BARRA INFERIOR DE CONTROLES */
+        .controls-bar {
+            position: absolute; bottom: 0; width: 100%; padding: 20px 40px; background: #ffffff;
+            border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; z-index: 200;
+        }
+        .nav-btn { background: var(--faep-green); color: white; border: none; padding: 12px 30px; font-size: 1rem; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .nav-btn:hover { background: var(--faep-light); transform: translateY(-2px); }
+        .notes-btn { background: transparent; color: var(--faep-gold); border: 2px solid var(--faep-gold); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .notes-btn:hover { background: var(--faep-gold); color: white; }
+        
+        .speaker-notes {
+            position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); width: 70%;
+            background: rgba(30, 41, 59, 0.95); color: white; border-top: 4px solid var(--faep-gold); padding: 25px;
+            border-radius: 10px; display: none; box-shadow: 0 15px 30px rgba(0,0,0,0.3); z-index: 150;
+        }
+        .speaker-notes h4 { color: var(--faep-gold); margin-bottom: 10px; }
+        .speaker-notes p { color: #f8fafc; }
+    </style>
+</head>
+<body>
+
+<div class="presentation-wrapper">
+    <div class="header-bar"></div>
+    <div class="logo-container">
+        <!-- Logo FAEP garantida no canto superior -->
+        <img src="image_7ca936.png" alt="FAEP">
+    </div>
+
+    <!-- S1: CAPA -->
+    <div class="slide active" id="slide1" data-note="Bem-vindos! Hoje falaremos sobre o Aplicador Legal. Não apenas como uma obrigação legal, mas como uma estratégia do SENAR-PR para organizar o campo, proteger o trabalhador e resolver o gargalo da burocracia na base.">
+        <div style="flex:1; display:flex; flex-direction:column; justify-content:center; padding-right: 20%;">
+            <img src="image_7ca936.png" alt="SENAR-PR" style="height: 120px; object-fit: contain; margin-bottom: 40px; align-self: flex-start;">
+            <h1>Programa<br>Aplicador Legal</h1>
+            <h2 style="font-weight: 500; color: var(--text-muted); font-size: 1.6rem; margin-top: 10px;">Da exigência normativa à estruturação da oferta pelo Sistema FAEP</h2>
+        </div>
+    </div>
+
+    <!-- S2: CONTEXTO -->
+    <div class="slide" id="slide2" data-note="O Aplicador Legal surge da necessidade urgente de qualificar tecnicamente o campo. Mais do que atender à lei, visa a proteção ambiental e a segurança ocupacional.">
+        <h2 class="title">Por que este tema chegou até nós?</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>Necessidade Técnica e Legal</h3>
+                <ul style="margin-left: 20px;">
+                    <li>Garantir o uso correto e seguro de defensivos agrícolas.</li>
+                    <li>Redução drástica de riscos à saúde do trabalhador e produtor.</li>
+                    <li>Proteção ambiental e mitigação de problemas com deriva.</li>
+                    <li>Atendimento integral à legislação (Decreto Federal).</li>
+                    <li>Elevação técnica da qualidade da pulverização nas lavouras.</li>
+                </ul>
+            </div>
+            <div class="visual-box">
+                <span>🛡️</span>
+                <p>O Foco é a Proteção</p>
+                <p style="font-weight: 400; font-size:1rem; color:var(--text-muted); margin-top:10px;">Segurança do trabalhador, conformidade ambiental e eficiência agronômica operando juntas.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- S3: LINHA DO TEMPO -->
+    <div class="slide" id="slide3" data-note="Esse processo não é novo. Começou no Decreto de 2021 e evoluiu com forte atuação da nossa equipe para corrigir falhas operacionais na Proposta de 2026.">
+        <h2 class="title">Linha do Tempo Normativa</h2>
+        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+            <button class="timeline-btn active" onclick="showTime('t2021')">2021: Decreto</button>
+            <button class="timeline-btn" onclick="showTime('t2022')">2022: Portaria MAPA</button>
+            <button class="timeline-btn" onclick="showTime('t2023')">2023: Regras</button>
+            <button class="timeline-btn" onclick="showTime('t2026')">2026: Nova Proposta</button>
+        </div>
+        
+        <div id="t2021" class="timeline-content active">
+            <h3>Decreto nº 10.833/2021</h3>
+            <p>Inclui a figura do aplicador de agrotóxicos. Determina o registro obrigatório nos órgãos estaduais a campo e prevê que o MAPA definirá diretrizes para os cursos.</p>
+        </div>
+        <div id="t2022" class="timeline-content">
+            <h3>Portaria MAPA nº 410/2022</h3>
+            <p>Define o conteúdo programático mínimo dos cursos, dividindo-os em conhecimentos básicos de segurança (I a V) e habilitação específica por equipamento (Módulo VI).</p>
+        </div>
+        <div id="t2023" class="timeline-content">
+            <h3>Portaria MAPA nº 606/2023</h3>
+            <p>Estabelece diretrizes operacionais de credenciamento de entidades, modalidades (presencial/EAD), determina validade de 5 anos (presencial) e regras de certificação.</p>
+        </div>
+        <div id="t2026" class="timeline-content">
+            <h3>Proposta de Nova Portaria (FAEP/CNA)</h3>
+            <p>Reescrita com contribuições ativas do Sistema FAEP. Busca corrigir gargalos operacionais no campo, permite o aproveitamento total da NR 31 e prorroga prazos para 2028.</p>
+        </div>
+    </div>
+
+    <!-- S4: DECRETO 10.833 -->
+    <div class="slide" id="slide4" data-note="A base de tudo é o Decreto de 2021, que cria a obrigatoriedade do registro estadual.">
+        <h2 class="title">A Base Legal: Decreto nº 10.833/2021</h2>
+        <div class="card">
+            <h3>O que o Decreto trouxe?</h3>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>Define "aplicador" como a pessoa física que <strong>aplica ou supervisiona</strong> a aplicação.</li>
+                <li>Determina a obrigatoriedade do <strong>registro a campo</strong> de todos esses profissionais.</li>
+                <li>Vincula o registro aos órgãos de agricultura dos Estados (Ex: ADAPAR no Paraná).</li>
+                <li>Determina que o MAPA estabeleça as diretrizes pedagógicas para os cursos de capacitação necessários à aprovação desse registro.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- S5: CONTEÚDO MÍNIMO PORTARIA 410 -->
+    <div class="slide" id="slide5" data-note="A Portaria 410 dividiu o curso: uma parte teórica de segurança e uma parte NUNCA genérica, focada na máquina. A habilitação depende do equipamento.">
+        <h2 class="title">O Conteúdo Mínimo (Portaria MAPA 410/22)</h2>
+        <div class="grid-2">
+            <div class="card warning">
+                <h3>Bloco 1: Conteúdo Básico</h3>
+                <ul style="margin-left: 20px;">
+                    <li>I. Introdução ao Programa.</li>
+                    <li>II. Aquisição, transporte e armazenamento.</li>
+                    <li>III. Segurança na aplicação e EPIs.</li>
+                    <li>IV. Tecnologia de aplicação e clima.</li>
+                    <li>V. Prevenção e primeiros socorros.</li>
+                </ul>
+            </div>
+            <div class="card success">
+                <h3>Bloco 2: Habilitação Específica</h3>
+                <p style="font-weight: 600; color: var(--faep-green); margin-bottom: 10px;">Aprovação prévia no Bloco 1 é obrigatória para realizar:</p>
+                <ul style="margin-left: 20px;">
+                    <li>Pulverizador Costal</li>
+                    <li>Semi-estacionário/Tratorizado (mangueiras)</li>
+                    <li>Tratorizado com barras</li>
+                    <li>Autopropelido</li>
+                    <li>Turbopulverizador</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- S6: REGRAS PORTARIA 606 -->
+    <div class="slide" id="slide6" data-note="A Portaria 606 indicou quem pode ofertar o curso, e a validade. Presencial dá 5 anos, EAD dá apenas 2.">
+        <h2 class="title">As Regras de Funcionamento (Portaria 606/23)</h2>
+        <div class="card">
+            <ul style="column-count: 2; column-gap: 40px; margin-left: 20px; line-height: 2.2;">
+                <li>Cursos ofertados por entidades <strong>credenciadas</strong>.</li>
+                <li>Obrigatoriedade de plano de curso e instrutores legalmente habilitados.</li>
+                <li>Necessidade de avaliação formal (teórica básica + específica de máquina).</li>
+                <li>Emissão de Certificação para os aprovados.</li>
+                <li>Geração do Registro Oficial com validade nacional.</li>
+                <li><strong>Validade:</strong> 5 anos para cursos presenciais (e 2 anos se feito em EAD).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- S7: O DESAFIO PRÁTICO -->
+    <div class="slide" id="slide7" data-note="Aí chegamos no gargalo. A lei pura causava retrabalho no campo. Como conciliar a CLT (NR31) com essa exigência do MAPA sem o produtor perder o funcionário por semanas?">
+        <h2 class="title">O Desafio Prático para o SENAR-PR</h2>
+        <div class="card alert" style="margin-bottom: 20px;">
+            <h3>Da norma à execução: onde estavam as dores?</h3>
+            <ul style="margin-left: 20px;">
+                <li>Como integrar as exigências do Aplicador Legal com a NR 31.7 (Trabalhista)?</li>
+                <li>Como evitar que o produtor e o trabalhador façam cursos repetidos sobre o mesmo tema?</li>
+                <li>Como organizar o curso para diferenciar público <strong>com vínculo CLT</strong> e <strong>sem vínculo</strong>?</li>
+                <li>Como orientar sindicatos antes de o sistema do MAPA estar 100% pronto?</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- S8: O POSICIONAMENTO DA FAEP -->
+    <div class="slide" id="slide8" data-note="Nós do Sistema FAEP adotamos uma postura de protagonismo. Criamos a solução integrada.">
+        <h2 class="title">O Posicionamento do Sistema FAEP</h2>
+        <div class="card success">
+            <h3>Construir um modelo integrado, racional e aplicável.</h3>
+            <p style="margin-bottom: 15px;">O SENAR-PR não repassou o problema; estruturou a solução operacional:</p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li>Integração total entre exigências legais e a realidade do campo.</li>
+                <li>Aproveitamento prático de conteúdos já existentes.</li>
+                <li>Separação rigorosa de rotas de aprendizado por <strong>perfil de público</strong>.</li>
+                <li>Garantia de segurança jurídica e redução de afastamento do funcionário da fazenda.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- S9: NR 31.7 x APLICADOR LEGAL -->
+    <div class="slide" id="slide9" data-note="Tabela crucial. A NR 31 é do Ministério do Trabalho. O Aplicador Legal é do MAPA. Apesar das raízes diferentes, na segurança, eles pedem a mesma coisa.">
+        <h2 class="title">NR 31.7 x Aplicador Legal: São iguais?</h2>
+        <table>
+            <tr>
+                <th>Aspecto</th>
+                <th>NR 31.7 (Trabalhista)</th>
+                <th>Aplicador Legal (Agropecuário)</th>
+            </tr>
+            <tr>
+                <td><strong>Órgão Fiscalizador</strong></td>
+                <td>Ministério do Trabalho e Emprego</td>
+                <td>Ministério da Agricultura (MAPA)</td>
+            </tr>
+            <tr>
+                <td><strong>Público-Alvo</strong></td>
+                <td>Apenas trabalhadores CLT</td>
+                <td>Todos que aplicam (Produtores e CLT)</td>
+            </tr>
+            <tr>
+                <td><strong>Foco da Capacitação</strong></td>
+                <td>Saúde e segurança (Mínimo 20h)</td>
+                <td>Segurança + Habilitação por Máquina</td>
+            </tr>
+            <tr>
+                <td><strong>Natureza</strong></td>
+                <td>Obrigação do Empregador</td>
+                <td>Habilitação Pessoal do Aplicador</td>
+            </tr>
+        </table>
+        <div class="card warning" style="margin-top: 15px; padding: 15px; text-align: center;">
+            <p><strong>Conclusão SENAR-PR:</strong> São exigências diferentes, mas com conteúdos altamente convergentes. A melhor solução é a <strong>INTEGRAÇÃO</strong> das duas normas em uma única grade.</p>
+        </div>
+    </div>
+
+    <!-- S10: FLUXOGRAMA DA OFERTA -->
+    <div class="slide" id="slide10" data-note="Estruturamos 3 caminhos principais para a oferta dos cursos no campo.">
+        <h2 class="title">Como o SENAR-PR organizou a oferta?</h2>
+        <p style="margin-bottom: 20px;">Três percursos estruturados para não haver confusão na base:</p>
+        <div class="grid-3">
+            <div class="card warning" style="text-align:center;">
+                <h3>Caminho 1</h3>
+                <p>Aproveitamento de capacitações anteriores (Certificados antigos).</p>
+            </div>
+            <div class="card success" style="text-align:center;">
+                <h3>Caminho 2</h3>
+                <p>Primeira Habilitação (Jornada CLT / Com Vínculo).</p>
+            </div>
+            <div class="card" style="text-align:center; border-top-color:#3b82f6;">
+                <h3 style="color:#3b82f6;">Caminho 3</h3>
+                <p>Primeira Habilitação (Jornada Autônomo / Sem Vínculo).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- S11: CAMINHO 1 (APROVEITAMENTO) -->
+    <div class="slide" id="slide11" data-note="Aproveitamos os cursos antigos feitos antes da portaria, desde que se encaixem nos requisitos, poupando tempo.">
+        <h2 class="title">Caminho 1: Aproveitamento Anterior</h2>
+        <div class="card">
+            <h3>Evitando a repetição desnecessária</h3>
+            <p style="margin-top: 10px;">Para participantes que já realizaram treinamentos antes da nova regulamentação:</p>
+            <ul style="margin-left: 20px; margin-top: 15px; line-height: 1.8;">
+                <li>Cursos de NR 31.7 realizados nos <strong>dois anos anteriores</strong> podem ser apresentados.</li>
+                <li>A entidade credenciada (SENAR-PR) analisará a compatibilidade da carga horária e conteúdo.</li>
+                <li>Se validado, isenta o trabalhador da parte básica teórica, indo direto para a atualização/prática se necessário.</li>
+                <li>Gera segurança jurídica e reduz o tempo fora da propriedade.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- S12: O GRANDE AVANÇO CLT (ANTES x DEPOIS) -->
+    <div class="slide" id="slide12" data-note="Supervisores, marquem este slide! O SENAR economiza 16 horas do produtor ao fazer a unificação da máquina com a NR 31.">
+        <h2 class="title">O Grande Avanço: Otimização de Tempo para o CLT</h2>
+        <div class="grid-2">
+            <div class="card alert">
+                <h3>COMO SERIA SEM O SENAR? (Cursos Isolados)</h3>
+                <p>Produtor enviando o funcionário para a NR e depois para o curso de operação da máquina separadamente:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>NR 31 (24h) + Autopropelido (24h) = <strong style="color:#b91c1c;">48h</strong></li>
+                    <li>NR 31 (24h) + Tratorizado (24h) = <strong style="color:#b91c1c;">48h</strong></li>
+                    <li>NR 31 (24h) + Costal (8h) = <strong style="color:#b91c1c;">32h</strong></li>
+                </ul>
+            </div>
+            <div class="card success">
+                <h3>MODELO SENAR-PR (Percurso Integrado)</h3>
+                <p>Unificação inteligente que garante NR e Máquina na mesma jornada:</p>
+                <ul style="margin-left: 20px; margin-top: 10px; font-weight: bold; font-size: 1.1rem;">
+                    <li>Curso de Autopropelido: 32h Totais</li>
+                    <li>Curso de Tratorizado de Barras: 32h Totais</li>
+                    <li>Curso de Turbopulverizador: 32h Totais</li>
+                    <li>Curso de Costal: 24h Totais</li>
+                </ul>
+                <p style="margin-top:15px; font-weight: 600; color: var(--faep-green);">*Economia real de até 16h laborais (2 dias de trabalho) por funcionário.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- S13: ITINERÁRIO CLT -->
+    <div class="slide" id="slide13" data-note="Estas são as nomenclaturas oficiais que devem constar no sistema para a grade do CLT.">
+        <h2 class="title">Jornada CLT (Com Vínculo): Nomenclaturas</h2>
+        <p>Como os módulos foram batizados estruturalmente para abarcar as duas normas:</p>
+        
+        <div class="grid-2" style="margin-top: 20px;">
+            <div class="card">
+                <h3 style="color:var(--faep-green);">Fase 1: Módulo Integrado</h3>
+                <p>Cobre o conteúdo básico exigido pelo MAPA + todas as diretrizes de saúde do MTE.</p>
+                <div style="background:#e8f5e9; padding:10px; border-radius:5px; margin-top:10px;">
+                    <strong>Nome:</strong> Aplicador Legal + Normativa NR 31.07
+                </div>
+            </div>
+            <div class="card" style="border-top-color:var(--faep-gold);">
+                <h3 style="color:var(--faep-gold);">Fase 2: Habilitação de Máquina</h3>
+                <p>A parte técnica e prática do equipamento selecionado.</p>
+                <ul style="margin-left: 20px; margin-top: 10px; font-weight: 600;">
+                    <li>Aplicador Legal - Autopropelido</li>
+                    <li>Aplicador Legal - Tratorizado de barras</li>
+                    <li>Aplicador Legal - Turbopulverizador</li>
+                    <li>Aplicador Legal - Costal</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- S14: STATUS CLT -->
+    <div class="slide" id="slide14" data-note="Importante o Sindicato saber o que já está redondo e o que está sendo ajustado internamente no nosso sistema de ensino.">
+        <h2 class="title">Status de Implantação: Jornada CLT</h2>
+        <div class="grid-2">
+            <div class="card success">
+                <h3><span style="font-size:1.5rem">✅</span> Pronto & Entregue</h3>
+                <ul style="margin-left:20px;">
+                    <li>Jornada Completa consolidada em campo.</li>
+                    <li>Corpo Docente de instrutores devidamente formado.</li>
+                    <li>Curso Piloto validado pedagogicamente.</li>
+                    <li>Apostilas e Materiais Didáticos finalizados.</li>
+                </ul>
+            </div>
+            <div class="card warning" style="border-top-color: #f59e0b; background:#fef3c7;">
+                <h3 style="color: #d97706;"><span style="font-size:1.5rem">⚙️</span> Em Ajuste (Sistema de Ensino)</h3>
+                <ul style="margin-left:20px; color:#92400e;">
+                    <li><strong>Configuração no SE:</strong> Separar em duas etapas acadêmicas distintas o que hoje é lançado como etapa única.</li>
+                    <li>Criação de um novo módulo substitutivo para operar especificamente na Etapa 1.</li>
+                    <li>Reprogramação do calendário das turmas afetadas.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- S15: ITINERÁRIO AUTÔNOMO -->
+    <div class="slide" id="slide15" data-note="Se é o dono do sítio sem funcionário, ele não precisa da NR31. A carga horária cai para 16h totais no tratorizado.">
+        <h2 class="title">Jornada Autônomo (Sem Vínculo CLT)</h2>
+        <p>Trajeto enxuto focado diretamente na habilitação do MAPA, sem as horas excedentes da regra trabalhista.</p>
+        
+        <div class="grid-2" style="margin-top: 20px;">
+            <div class="card">
+                <h3 style="color:var(--faep-green);">Fase 1: Módulo Base (8h)</h3>
+                <p>Introdução, legislação, toxicologia básica e EPI de forma compacta e objetiva.</p>
+                <div style="background:#e8f5e9; padding:10px; border-radius:5px; margin-top:10px;">
+                    <strong>Nome:</strong> Módulo base: Aplicador Legal
+                </div>
+            </div>
+            <div class="card" style="border-top-color:#3b82f6;">
+                <h3 style="color:#3b82f6;">Fase 2: Habilitação de Máquina (8h / 4h)</h3>
+                <p>Prática idêntica no campo.</p>
+                <ul style="margin-left: 20px; margin-top: 10px; font-weight: 600; color:#1e40af;">
+                    <li>Aplicador Legal - Autopropelido (8h)</li>
+                    <li>Aplicador Legal - Tratorizado de barras (8h)</li>
+                    <li>Aplicador Legal - Turbopulverizador (8h)</li>
+                    <li>Aplicador Legal - Costal (4h)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- S16: STATUS AUTÔNOMO -->
+    <div class="slide" id="slide16" data-note="A grade para autônomos exigiu criação zero. Os cursos antigos de atualização de agrotóxicos não servem.">
+        <h2 class="title">Status de Implantação: Jornada Autônomo</h2>
+        <div class="grid-2">
+            <div class="card success">
+                <h3><span style="font-size:1.5rem">✅</span> Pronto & Entregue</h3>
+                <ul style="margin-left:20px;">
+                    <li><strong>Instrutores Habilitados:</strong> Nosso quadro atual de docentes já domina a técnica exigida e pode atuar assim que o formato estiver liberado.</li>
+                </ul>
+            </div>
+            <div class="card warning" style="border-top-color: #f59e0b; background:#fef3c7;">
+                <h3 style="color: #d97706;"><span style="font-size:1.5rem">⚙️</span> Fase de Parametrização</h3>
+                <ul style="margin-left:20px; color:#92400e;">
+                    <li><strong>Criação Curricular do Zero:</strong> As etapas técnicas exclusivas para esse formato estão sendo redigidas.</li>
+                    <li><strong>Modelagem no SE:</strong> Imprescindível criar essas novas grades no SE. Os cursos antigos de "Atualização de Agrotóxicos" não valem para a portaria.</li>
+                    <li>Sessão rápida de nivelamento com instrutores sobre o novo formato de tempo.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- S17: SEGUNDA HABILITAÇÃO -->
+    <div class="slide" id="slide17" data-note="Cuidado no balcão: o aluno é isento da parte teórica, mas a nova carteirinha vence na mesma data que a antiga.">
+        <h2 class="title">Regra da Segunda Habilitação</h2>
+        <div class="grid-2">
+            <div class="card success">
+                <h3>Isenção da Fase 1</h3>
+                <p>O aluno que já tem carteira de "Tratorizado" e quiser operar um "Costal", cursa APENAS a Fase 2 (Prática de 4h) sem precisar refazer o módulo teórico.</p>
+            </div>
+            <div class="card alert">
+                <h3>Atenção: Vencimento Casado!</h3>
+                <p>A nova habilitação <strong>não ganha 5 anos isolados</strong>. Ela expira exatamente na mesma data da primeira habilitação obtida.</p>
+                <div style="background:#fef2f2; border:1px solid #ef4444; padding:10px; margin-top:10px; border-radius:5px;">
+                    <strong>Recomendação do Supervisor:</strong> Se a carteira inicial vencer em menos de 6 meses, vale a pena refazer TUDO de uma vez para renovar por 5 anos!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- S18: MOBILIZAÇÃO MÁQUINAS -->
+    <div class="slide" id="slide18" data-note="A habilitação não é genérica. O aluno não pode entrar na sala de turbopulverizador se ele opera costal no sítio.">
+        <h2 class="title">Habilitação Específica por Equipamento</h2>
+        <p style="font-size:1.2rem; margin-bottom:20px;">O curso matriculado deve corresponder rigorosamente ao equipamento operado na propriedade.</p>
+        <div class="grid-2">
+            <div class="visual-box">
+                <span>🚜</span>
+                <p>Identificação na Base</p>
+                <p style="font-weight: 400; color:var(--text-muted); font-size:1rem;">O Sindicato deve questionar a realidade técnica antes de fechar a turma.</p>
+            </div>
+            <ul style="font-size: 1.5rem; line-height: 2.5; margin-left: 20px; align-self: center; font-weight: 600;">
+                <li>🚜 Tratorizado de Barras</li>
+                <li>🏗️ Autopropelido</li>
+                <li>🌪️ Turbopulverizador</li>
+                <li>🎒 Costal (Manual/Motorizado)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- S19: CERTIFICADO X CARTEIRA -->
+    <div class="slide" id="slide19" data-note="Isso dá dor de cabeça. SENAR dá certificado. MAPA dá carteira. Não deixem o produtor achar que vai sair com a carteira da sala de aula.">
+        <h2 class="title">Alinhamento Crítico: Certificado NÃO é Carteira</h2>
+        <p style="margin-bottom: 30px;">Fluxo de processamento e emissão de documentação:</p>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="step-box active" style="width: 28%;">
+                <h3>1. SENAR-PR</h3>
+                <p style="margin-top: 10px;">Capacita o aluno, aplica a prova e emite o <strong>CERTIFICADO</strong> de conclusão.</p>
+            </div>
+            <div class="step-arrow">➜</div>
+            <div class="step-box" style="width: 28%;">
+                <h3 style="color:var(--text-main);">2. MAPA / ADAPAR</h3>
+                <p style="color:var(--text-muted); margin-top: 10px;">Recebe os dados do sistema integrado e aprova o <strong>CADASTRO</strong> oficial.</p>
+            </div>
+            <div class="step-arrow">➜</div>
+            <div class="step-box" style="width: 28%; background:var(--faep-gold); border-color:var(--faep-gold);">
+                <h3 style="color:white;">3. APLICADOR</h3>
+                <p style="color:white; margin-top: 10px;">Acessa o app nacional e retira a sua <strong>CARTEIRA DIGITAL</strong> válida.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- S20: PROPOSTA 2026 -->
+    <div class="slide" id="slide20" data-note="Para fechar as regras, nós propusemos alterações em Brasília para aliviar o produtor e a fiscalização.">
+        <h2 class="title">Avanços da Nova Proposta de Portaria (2026)</h2>
+        <div class="card success">
+            <h3>Contribuições Históricas (FAEP, CNA, CropLife)</h3>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li>Pacificação do reconhecimento total da NR 31 como equivalência.</li>
+                <li>Critérios lógicos: Frequência de 75% e Aprovação objetiva de 70%.</li>
+                <li>O <strong>Certificado vira documento válido provisoriamente</strong> enquanto o MAPA aprimora o app da Carteira.</li>
+                <li>Prorrogação da exigência do registro para <strong>31 de dezembro de 2028</strong>.</li>
+                <li>Fiscalização passa a ser orientativa (90 dias para regularizar sem tomar multa imediata).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- S21: SUPERVISORES -->
+    <div class="slide" id="slide21" data-note="Qual o papel de vocês após saírem daqui? Multiplicar a informação sem ruídos.">
+        <h2 class="title">O Papel dos Supervisores na Ponta</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>Ações de Triagem</h3>
+                <ul style="margin-left: 20px;">
+                    <li>Orientar sindicatos e mobilizadores a não cadastrarem Autônomos em turmas focadas em CLT (desperdício de carga).</li>
+                    <li>Garantir a escolha exata da máquina.</li>
+                    <li>Blindar a promessa de "Carteira imediata".</li>
+                </ul>
+            </div>
+            
+            <!-- APLICAÇÃO DA CLASSE DARK-MODE PARA CORREÇÃO DE CONTRASTE -->
+            <div class="card dark-mode">
+                <h3>Mensagens-Chave p/ Sindicatos</h3>
+                <ol style="margin-left: 20px; margin-top:10px; line-height:1.8;">
+                    <li>"A habilitação não é genérica, depende da MÁQUINA operada."</li>
+                    <li>"A grade unificada do SENAR salva dias de trabalho da sua equipe."</li>
+                    <li>"O SENAR ensina; o Governo emite a carteira oficial."</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= INÍCIO DA SESSÃO DE QUIZZES ================= -->
+
+    <!-- S22: QUIZ 1 -->
+    <div class="slide" id="slide22" data-note="Hora do Quiz. Vamos ver se fixaram o cálculo da redução de horas.">
+        <h2 class="title">Desafio Prático: Mobilização e Carga Horária</h2>
+        <div class="card">
+            <h3 style="color:var(--text-main);">PERGUNTA 1: Um trabalhador com vínculo (CLT) precisa se habilitar para operar um Turbopulverizador. Qual é a carga horária final que o Sindicato vai agendar na nova grade do SENAR-PR?</h3>
+            
+            <div class="quiz-opt" onclick="this.classList.add('wrong'); alert('Incorreto. Isso seria no modelo antigo, se a fazenda precisasse pagar os cursos separados.')">A) 48 Horas (24h de NR separada + 24h de Máquina)</div>
+            <div class="quiz-opt" onclick="this.classList.add('correct'); alert('Correto! Com o percurso integrado, a Fase 1 (Base/NR 24h) soma com a Fase 2 (Prática 8h) = 32 Horas totais.')">B) 32 Horas Integradas (Fase 1 + Fase 2)</div>
+            <div class="quiz-opt" onclick="this.classList.add('wrong'); alert('Incorreto. Carga de 16h é apenas para Autônomos sem exigência da legislação trabalhista.')">C) 16 Horas Totais</div>
+        </div>
+    </div>
+
+    <!-- S23: QUIZ 2 -->
+    <div class="slide" id="slide23" data-note="A regra da segunda habilitação é complexa, prestem atenção no prazo.">
+        <h2 class="title">Desafio Prático: Segunda Habilitação</h2>
+        <div class="card">
+            <h3 style="color:var(--text-main);">PERGUNTA 2: O produtor tem a habilitação "Costal" (tirada há 4 anos) e fará agora o "Tratorizado". Como funciona o curso e qual será a data de vencimento desta nova habilitação?</h3>
+            
+            <div class="quiz-opt" onclick="this.classList.add('wrong'); alert('Incorreto. A lei permite que ele não refaça a Fase 1 Teórica.')">A) Ele refaz todo o Módulo Básico + Prática, ganhando 5 anos de validade.</div>
+            <div class="quiz-opt" onclick="this.classList.add('wrong'); alert('Incorreto. Ele de fato só faz a prática, mas não ganha 5 anos exclusivos para ela. Ela vai vencer junto com a primeira carteirinha dele.')">B) Ele faz apenas as 8h de prática do Tratorizado, e essa habilitação ganha validade de 5 anos isolada.</div>
+            <div class="quiz-opt" onclick="this.classList.add('correct'); alert('Exato! A isenção teórica tem o preço do *Vencimento Casado*. As duas vencerão no ano que vem.')">C) Ele cursa APENAS a Fase 2 Prática (8h), mas a nova habilitação VENCERÁ junto com a carteira do Costal (daqui a 1 ano).</div>
+        </div>
+    </div>
+
+    <!-- S24: QUIZ 3 -->
+    <div class="slide" id="slide24" data-note="O quiz final para garantir que não teremos ruído no alinhamento de emissão do documento.">
+        <h2 class="title">Desafio Prático: Emissão e Processo</h2>
+        <div class="card">
+            <h3 style="color:var(--text-main);">PERGUNTA 3: Um grupo concluiu a carga horária na fazenda com 100% de aproveitamento. Como o supervisor orienta o Sindicato a informar o produtor sobre a Carteira?</h3>
+            
+            <div class="quiz-opt" onclick="this.classList.add('wrong'); alert('Cuidado! O papel emitido pelo SENAR tem validade pedagógica e comprobatória, mas o MAPA exige a carteira digital no aplicativo deles.')">A) "Guarde o certificado do SENAR no porta-luvas do trator, ele é a sua Carteira definitiva do governo Federal."</div>
+            <div class="quiz-opt" onclick="this.classList.add('correct'); alert('Perfeito. Responsabilidade técnica do SENAR, responsabilidade burocrática/registro do MAPA.')">B) "Você está certificado pelo SENAR! Seus dados seguirão para o sistema de Defesa Agropecuária, onde a sua Carteira Digital será gerada."</div>
+        </div>
+    </div>
+
+    <!-- ================= FIM DA SESSÃO DE QUIZZES ================= -->
+
+    <!-- S25: ENCERRAMENTO -->
+    <div class="slide" id="slide25" data-note="Muito obrigado pelo empenho de sempre. Vocês são fundamentais para que o Paraná seja referência nisso.">
+        <h2 class="title">Mensagem Institucional</h2>
+        <div style="text-align: center; margin-top: 60px;">
+            <div style="display:inline-block; padding: 20px; background:var(--bg-body); border-radius: 50%; margin-bottom: 20px;">
+                <img src="image_7ca936.png" alt="SENAR-PR" style="height: 100px; object-fit: contain;">
+            </div>
+            <h3 style="color: var(--faep-green); font-size: 2.5rem; margin-bottom: 15px; font-weight: 800;">Exigência, Oportunidade e Protagonismo</h3>
+            <p style="font-size: 1.3rem; max-width: 800px; margin: 0 auto; color: var(--text-muted);">
+                O Sistema FAEP não atua apenas para cumprir regras; nós transformamos uma pesada legislação burocrática em capacitação racional, viável e de excelência para o produtor rural.
+            </p>
+        </div>
+    </div>
+
+    <!-- CONTROLES DA APRESENTAÇÃO -->
+    <div class="controls-bar">
+        <button class="nav-btn" onclick="prevSlide()">❮ Voltar</button>
+        <span id="slideCounter" style="font-weight: 600; color: var(--text-muted);">Slide 1 de 25</span>
+        <button class="notes-btn" onclick="toggleNotes()">📋 Guia do Palestrante</button>
+        <button class="nav-btn" onclick="nextSlide()">Avançar ❯</button>
+    </div>
+
+    <!-- NOTAS DO PALESTRANTE -->
+    <div class="speaker-notes" id="speakerNotes">
+        <h4>🎤 Anotações para a Fala</h4>
+        <p id="noteText">Anotação do slide atual...</p>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = 25; 
+
+    function updateUI() {
+        for (let i = 1; i <= totalSlides; i++) {
+            document.getElementById('slide' + i).classList.remove('active');
+        }
+        const activeSlide = document.getElementById('slide' + currentSlide);
+        activeSlide.classList.add('active');
+        
+        document.getElementById('slideCounter').innerText = `Slide ${currentSlide} de ${totalSlides}`;
+        
+        const note = activeSlide.getAttribute('data-note') || "Nenhuma nota definida.";
+        document.getElementById('noteText').innerText = note;
+    }
+
+    function nextSlide() {
+        if (currentSlide < totalSlides) {
+            currentSlide++;
+            updateUI();
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlide > 1) {
+            currentSlide--;
+            updateUI();
+        }
+    }
+
+    function toggleNotes() {
+        const notesPanel = document.getElementById('speakerNotes');
+        if (notesPanel.style.display === 'block') {
+            notesPanel.style.display = 'none';
+        } else {
+            notesPanel.style.display = 'block';
+            updateUI(); 
+        }
+    }
+
+    function showTime(id) {
+        document.querySelectorAll('.timeline-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.timeline-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // Navegação prática pelo teclado (Setas direita e esquerda)
+    document.addEventListener('keydown', function(event) {
+        if(event.key === "ArrowRight") { nextSlide(); }
+        else if(event.key === "ArrowLeft") { prevSlide(); }
+    });
+
+    updateUI();
+</script>
+
+</body>
+</html>
